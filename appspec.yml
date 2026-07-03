@@ -2,8 +2,10 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
+  - source: index.html
     destination: /var/www/html
+  - source: scripts
+    destination: /tmp/scripts  
 
 hooks:
   BeforeInstall:
