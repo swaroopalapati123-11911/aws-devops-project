@@ -1,172 +1,609 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProCode Finder - Master Programming Concepts</title>
+    <style>
+        /* Colorful & High-Energy Modern CSS Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-    body{
-        font-family: Arial, sans-serif;
-        background:#f2f2f2;
-        margin:0;
-        padding:0;
-    }
+        body {
+            font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0b0f19 0%, #111827 30%, #1e1b4b 70%, #311042 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: 70px 1fr;
+            grid-template-columns: 260px 1fr;
+            grid-template-areas: 
+                "header header"
+                "sidebar main";
+            overflow-x: hidden;
+        }
 
-    .container{
-        width:600px;
-        margin:30px auto;
-        background:white;
-        padding:20px;
-        border-radius:10px;
-        box-shadow:0px 0px 10px gray;
-    }
+        /* --- HEADER STYLES --- */
+        header {
+            grid-area: header;
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 10;
+        }
 
-    h1{
-        text-align:center;
-        color:#0066cc;
-    }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
 
-    table{
-        width:100%;
-    }
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+        }
 
-    td{
-        padding:10px;
-    }
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #00f2fe 0%, #4facfe 30%, #f355da 70%, #ff007f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 2px 10px rgba(79, 70, 229, 0.3));
+        }
 
-    input, select, textarea{
-        width:100%;
-        padding:8px;
-        border-radius:5px;
-        border:1px solid gray;
-    }
+        .header-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
 
-    textarea{
-        resize:none;
-    }
+        .header-links a:hover, .header-links a.active-tab {
+            color: #00f2fe;
+            background: rgba(0, 242, 254, 0.1);
+        }
 
-    .gender{
-        width:auto;
-    }
+        /* --- SIDEBAR NAVIGATION STYLES --- */
+        aside {
+            grid-area: sidebar;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    .btn{
-        width:48%;
-        padding:10px;
-        border:none;
-        color:white;
-        cursor:pointer;
-        font-size:16px;
-        border-radius:5px;
-    }
+        aside h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
 
-    .submit{
-        background:green;
-    }
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    .reset{
-        background:red;
-    }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            transform: translateX(4px);
+        }
 
-    .btn:hover{
-        opacity:0.9;
-    }
-</style>
+        .nav-btn.active {
+            background: linear-gradient(135deg, rgba(5, 117, 230, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: #00f2fe;
+        }
 
+        /* --- MAIN CONTENT STYLES --- */
+        main {
+            grid-area: main;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        .app-view {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .app-view.active-view {
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .view-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 16px 24px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            font-size: 16px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #00f2fe;
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+        }
+
+        button.search-btn {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #0575e6 0%, #00f2fe 50%, #7928ca 100%);
+            background-size: 200% auto;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.4);
+        }
+
+        button.search-btn:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+        }
+
+        /* --- RESULT CARD STYLES --- */
+        #result-container {
+            margin-top: 25px;
+            min-height: 100px;
+        }
+
+        .result-card {
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(243, 85, 218, 0.2);
+            padding: 24px;
+            border-radius: 20px;
+        }
+
+        .result-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .result-card a {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-doc { background: linear-gradient(135deg, #f355da, #7928ca); }
+        .btn-yt { background: linear-gradient(135deg, #ff4b5c, #ff0000); }
+
+        /* --- EXPLORE VIEW STYLES --- */
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .explore-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .explore-card:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.7);
+            border-color: #00f2fe;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.15);
+        }
+
+        .explore-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #00f2fe;
+        }
+
+        .explore-card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        /* --- COMMUNITY VIEW STYLES --- */
+        .community-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .forum-post {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #ff007f, #7928ca);
+            border-radius: 50%;
+        }
+
+        .username {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .post-content {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .error-message {
+            color: #ff4b5c;
+            background: rgba(255, 75, 92, 0.12);
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                grid-template-rows: auto auto 1fr;
+                grid-template-columns: 1fr;
+                grid-template-areas: "header" "sidebar" "main";
+            }
+            aside { flex-direction: row; overflow-x: auto; padding: 15px; }
+            aside h3 { display: none; }
+            .nav-btn { white-space: nowrap; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <header>
+        <div class="logo-container" onclick="switchView('home')">
+            <svg class="brand-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00f2fe" />
+                        <stop offset="100%" stop-color="#7928ca" />
+                    </linearGradient>
+                </defs>
+                <path d="M35 30 L15 50 L35 70" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M65 30 L85 50 L65 70" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M58 20 L42 80" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="4" fill="#fff" />
+            </svg>
+            <h1>ProCode Finder</h1>
+        </div>
+        <nav class="header-links">
+            <a id="tab-home" class="active-tab" onclick="switchView('home')">Home</a>
+            <a id="tab-explore" onclick="switchView('explore')">Explore</a>
+            <a id="tab-community" onclick="switchView('community')">Community</a>
+        </nav>
+    </header>
 
-<h1>Student Management System</h1>
+    <aside>
+        <h3>Quick Access</h3>
+        <button class="nav-btn" onclick="quickSearch('python')">🐍 Python</button>
+        <button class="nav-btn" onclick="quickSearch('javascript')">⚡ JavaScript</button>
+        <button class="nav-btn" onclick="quickSearch('java')">☕ Java</button>
+        <button class="nav-btn" onclick="quickSearch('c++')">🛠️ C++</button>
+        <button class="nav-btn" onclick="quickSearch('html')">🌐 HTML</button>
+        <button class="nav-btn" onclick="quickSearch('os')">🖥️ Operating Systems</button>
+        <button class="nav-btn" onclick="quickSearch('dbms')">🗄️ DBMS</button>
+    </aside>
 
-<form>
+    <main>
+        
+        <div id="view-home" class="app-view active-view">
+            <div class="container">
+                <p class="subtitle">Search your subject (e.g., Python, OS, DBMS, C++, HTML...)</p>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="What do you want to learn today?">
+                    <button class="search-btn" onclick="searchConcept()">Search</button>
+                </div>
+                <div id="result-container"></div>
+            </div>
+        </div>
 
-<table>
+        <div id="view-explore" class="app-view">
+            <div class="container" style="text-align: left;">
+                <h2 class="view-title">Explore Tech Stacks</h2>
+                <p class="subtitle" style="margin-bottom: 20px;">Browse curated language concepts and core programming systems.</p>
+                
+                <div class="explore-grid">
+                    <div class="explore-card" onclick="quickSearch('python')">
+                        <h4>🐍 Python Stack</h4>
+                        <p>Learn dynamic high-level execution, object methods, and Django app patterns.</p>
+                    </div>
+                    <div class="explore-card" onclick="quickSearch('javascript')">
+                        <h4>⚡ JavaScript Ecosystem</h4>
+                        <p>Master dynamic browser environments, functional prototypes, and script manipulation.</p>
+                    </div>
+                    <div class="explore-card" onclick="quickSearch('os')">
+                        <h4>🖥️ Core Operating Systems</h4>
+                        <p>Dive deep into process trees, thread schedulers, and hardware memory paging loops.</p>
+                    </div>
+                    <div class="explore-card" onclick="quickSearch('dbms')">
+                        <h4>🗄️ Relational DBMS</h4>
+                        <p>Understand standard normal forms, query index structures, and storage safety invariants.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<tr>
-<td>Student Name</td>
-<td><input type="text" placeholder="Enter Name"></td>
-</tr>
+        <div id="view-community" class="app-view">
+            <div class="container">
+                <h2 class="view-title" style="text-align: left;">Community Feed</h2>
+                <p class="subtitle" style="text-align: left; margin-bottom: 25px;">Interact with other students and developer peers online.</p>
+                
+                <div class="community-feed">
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <div class="avatar"></div>
+                            <span class="username">Dev_Alpha</span>
+                            <span class="post-time">3 hours ago</span>
+                        </div>
+                        <p class="post-content">Just finished watching the Operating Systems process scheduling playlist inside ProCode Finder. Clarified IPC pipeline behaviors beautifully!</p>
+                    </div>
+                    
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <div class="avatar" style="background: linear-gradient(135deg, #00f2fe, #4facfe);"></div>
+                            <span class="username">CodeNewbie_99</span>
+                            <span class="post-time">5 hours ago</span>
+                        </div>
+                        <p class="post-content">Is it better to start learning web foundations directly with modern JavaScript DOM scripts, or focus entirely on standard HTML structures first?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<tr>
-<td>Roll Number</td>
-<td><input type="text" placeholder="Enter Roll Number"></td>
-</tr>
+    </main>
 
-<tr>
-<td>Course</td>
-<td>
-<select>
-<option>Select Course</option>
-<option>B.Tech</option>
-<option>B.Sc</option>
-<option>B.Com</option>
-<option>BCA</option>
-<option>MCA</option>
-</select>
-</td>
-</tr>
+    <script>
+        // Database expanded with standard YouTube crash courses/playlists for each topic
+        const database = {
+            "c": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=C+Programming+Basics", 
+                linkUrl: "https://www.w3schools.com/c/index.php",
+                youtubeUrl: "https://www.youtube.com/watch?v=pdPRdhify1Q&t=21s"
+            },
+            "c++": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=C%2B%2B+Object+Oriented+Concepts", 
+                linkUrl: "https://www.w3schools.com/cpp/",
+                youtubeUrl: "https://www.youtube.com/watch?v=ueT_KIbtvkI"
+            },
+            "java": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=Java+Architecture+and+OOP", 
+                linkUrl: "https://www.w3schools.com/java/",
+                youtubeUrl: "https://www.youtube.com/watch?v=d530rd7m_1E"
+            },
+            "python": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=Python+Syntax+and+Features", 
+                linkUrl: "https://www.w3schools.com/python/",
+                youtubeUrl: "https://www.youtube.com/watch?v=fHKPQEVCX-s"
+            },
+            "django": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=Django+MVT+Architecture", 
+                linkUrl: "https://docs.djangoproject.com/",
+                youtubeUrl: "https://www.youtube.com/watch?v=V7knPMQPuMY"
+            },
+            "html": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=HTML5+Structure+and+Tags", 
+                linkUrl: "https://www.w3schools.com/html/",
+                youtubeUrl: "https://www.youtube.com/watch?v=lGKGDxwvrEQ"
+            },
+            "css": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=CSS3+Flexbox+and+Grid", 
+                linkUrl: "https://www.w3schools.com/css/",
+                youtubeUrl: "https://www.youtube.com/watch?v=Oi9QvyK8zvk"
+            },
+            "javascript": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=JavaScript+DOM+Manipulation", 
+                linkUrl: "https://www.w3schools.com/js/",
+                youtubeUrl: "https://www.youtube.com/watch?v=Yrhdv_Z-JzU"
+            },
+            "os": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=Operating+System+Concepts", 
+                linkUrl: "https://www.geeksforgeeks.org/operating-systems/",
+                youtubeUrl: "https://www.youtube.com/watch?v=WpdKyLXa9SU"
+            },
+            "dbms": {
+                imageUrl: "https://via.placeholder.com/500x300/1e293b/fff?text=Database+Management+Systems", 
+                linkUrl: "https://www.geeksforgeeks.org/dbms/",
+                youtubeUrl: "https://www.youtube.com/watch?v=DbQLWpaWLKw"
+            }
+        };
 
-<tr>
-<td>Year</td>
-<td>
-<select>
-<option>1st Year</option>
-<option>2nd Year</option>
-<option>3rd Year</option>
-<option>4th Year</option>
-</select>
-</td>
-</tr>
+        // SPA Navigation Routing Switch
+        function switchView(viewId) {
+            // Hide all views and remove active state from tab headers
+            document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active-view'));
+            document.querySelectorAll('.header-links a').forEach(tab => tab.classList.remove('active-tab'));
+            
+            // Show requested view
+            document.getElementById(view-${viewId}).classList.add('active-view');
+            document.getElementById(tab-${viewId}).classList.add('active-tab');
+        }
 
-<tr>
-<td>Email</td>
-<td><input type="email" placeholder="Enter Email"></td>
-</tr>
+        // Standard dynamic regular search function
+        function searchConcept() {
+            const input = document.getElementById("search-input").value.toLowerCase().trim();
+            executeSearch(input);
+        }
 
-<tr>
-<td>Phone</td>
-<td><input type="tel" placeholder="Enter Phone Number"></td>
-</tr>
+        // Shared execution context for searches
+        function executeSearch(topic) {
+            const resultContainer = document.getElementById("result-container");
+            resultContainer.innerHTML = "";
 
-<tr>
-<td>Gender</td>
-<td>
-<input class="gender" type="radio" name="gender"> Male
-<input class="gender" type="radio" name="gender"> Female
-</td>
-</tr>
+            if (topic === "") {
+                resultContainer.innerHTML = "<p class='error-message'>Please enter a topic to search.</p>";
+                return;
+            }
 
-<tr>
-<td>Skills</td>
-<td>
-<input type="checkbox"> HTML
-<input type="checkbox"> CSS
-<input type="checkbox"> JavaScript
-<input type="checkbox"> Python
-</td>
-</tr>
+            if (database[topic]) {
+                const concept = database[topic];
+                const displayTitle = topic.toUpperCase();
 
-<tr>
-<td>Address</td>
-<td>
-<textarea rows="4" placeholder="Enter Address"></textarea>
-</td>
-</tr>
+                resultContainer.innerHTML = `
+                    <div class="result-card">
+                        <img src="${concept.imageUrl}" alt="${displayTitle} diagram">
+                        <div class="button-group">
+                            <a href="${concept.linkUrl}" target="_blank" class="btn-doc">📚 Docs &rarr;</a>
+                            <a href="${concept.youtubeUrl}" target="_blank" class="btn-yt">📺 Watch Tutorial</a>
+                        </div>
+                    </div>
+                `;
+                updateActiveSidebar(topic);
+            } else {
+                resultContainer.innerHTML = "<p class='error-message'>Topic not found. Try searching 'Python', 'OS', or 'Java'.</p>";
+                clearActiveSidebar();
+            }
+        }
 
-<tr>
-<td colspan="2" align="center">
-<input class="btn submit" type="submit" value="Submit">
-<input class="btn reset" type="reset" value="Reset">
-</td>
-</tr>
+        // Left Navigation quick trigger function
+        function quickSearch(topic) {
+            switchView('home'); // Ensure search dashboard page is open
+            document.getElementById("search-input").value = topic;
+            executeSearch(topic);
+        }
 
-</table>
+        // Manage dynamic UI state for sidebar selection highlights
+        function updateActiveSidebar(topic) {
+            clearActiveSidebar();
+            const buttons = document.querySelectorAll('aside .nav-btn');
+            buttons.forEach(btn => {
+                if(btn.getAttribute('onclick').includes('${topic}')) {
+                    btn.classList.add('active');
+                }
+            });
+        }
 
-</form>
+        function clearActiveSidebar() {
+            document.querySelectorAll('aside .nav-btn').forEach(btn => btn.classList.remove('active'));
+        }
 
-</div>
-
+        // Event listener mapping
+        document.getElementById("search-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchConcept();
+            }
+        });
+    </script>
 </body>
 </html>
