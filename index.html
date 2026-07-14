@@ -622,6 +622,26 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 console.log("Firebase Connected Successfully!");
+ import {
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+async function addUser() {
+  try {
+    await addDoc(collection(db, "users"), {
+      name: "Swaroop",
+      email: "swaroop@gmail.com",
+      project: "AWS CI/CD"
+    });
+
+    console.log("User Added Successfully!");
+  } catch (e) {
+    console.error("Error:", e);
+  }
+}
+
+addUser();       
 </script>
 </body>
 </html>
