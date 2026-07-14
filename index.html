@@ -536,8 +536,8 @@
             document.querySelectorAll('.header-links a').forEach(tab => tab.classList.remove('active-tab'));
             
             // Show requested view
-            document.getElementById(view-${viewId}).classList.add('active-view');
-            document.getElementById(tab-${viewId}).classList.add('active-tab');
+            document.getElementById(`view-${viewId}`).classList.add('active-view');
+            document.getElementById(`tab-${viewId}`).classList.add('active-tab');
         }
 
         // Standard dynamic regular search function
@@ -588,7 +588,7 @@
             clearActiveSidebar();
             const buttons = document.querySelectorAll('aside .nav-btn');
             buttons.forEach(btn => {
-                if(btn.getAttribute('onclick').includes('${topic}')) {
+                if(btn.getAttribute('onclick').includes(topic)) {
                     btn.classList.add('active');
                 }
             });
